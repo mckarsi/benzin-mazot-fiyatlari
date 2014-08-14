@@ -1,38 +1,34 @@
 package com.inndeks.benzinmazotfiyatlari.activity;
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListView;
+import android.widget.Toast;
 
 import com.inndeks.benzinmazotfiyatlari.R;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import adapter.FuelListAdapter;
 import fragment.FragmentListing;
-import model.FuelModel;
+import fragment.FragmentNoConnection;
 
 
 public class MainActivity extends Activity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Context context = this.getApplicationContext();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
-                    .add(R.id.container, new FragmentListing())
-                    .commit();
+            if(checkInternetAvailability(context)){
+                getFragmentManager().beginTransaction().add(R.id.container, new FragmentListing()).commit();
+            }else{
+                getFragmentManager().beginTransaction().add(R.id.container, new FragmentNoConnection()).commit();
+            }
         }
-        //populateFuelList();
     }
 
     @Override
@@ -54,4 +50,15 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    public boolean checkInternetAvailability(Context ctx){
+        ConnectivityManager conMgr = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo i = conMgr.getActiveNetworkInfo();
+        if (i == null)
+            return false;
+        if (!i.isConnected())
+            return false;
+        if (!i.isAvailable())
+            return false;
+        return true;
+    }
 }
