@@ -16,12 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import adapter.FuelListAdapter;
+import fragment.FragmentListing;
 import model.FuelModel;
 
 
 public class MainActivity extends Activity {
 
-    private List<FuelModel> fuelList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,34 +29,12 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new FragmentListing())
                     .commit();
         }
-        populateFuelList();
+        //populateFuelList();
     }
 
-    private List<FuelModel> downloadFuelPrices(){
-        fuelList = new ArrayList<FuelModel>();
-
-        FuelModel fuelItem;
-    // burası şimdilik böyle
-        for(int i = 0 ; i<5; i++){
-            fuelItem =  new FuelModel();
-            fuelItem.setFuelName("benzin");
-            fuelItem.setFuelPrice("hgghh");
-            fuelList.add(fuelItem);
-        }
-
-        return fuelList;
-    }
-
-    private boolean populateFuelList(){
-        fuelList = downloadFuelPrices();
-        ListView fuelListObject = (ListView) findViewById(R.id.fuelList);
-        FuelListAdapter listAdapter = new FuelListAdapter(MainActivity.this, fuelList);
-        fuelListObject.setAdapter(listAdapter);
-        return true;
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -76,22 +54,4 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
-        }
-
-
-
-    }
 }

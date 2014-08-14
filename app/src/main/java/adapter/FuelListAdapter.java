@@ -17,34 +17,40 @@ import model.FuelModel;
 /**
  * Created by mertcan on 13.08.2014.
  */
-public class FuelListAdapter extends ArrayAdapter<String> {
+public class FuelListAdapter extends ArrayAdapter<FuelModel> {
 
-    private Context context;
-    private List<FuelModel> fuelList;
+    public FuelListAdapter(Context context, int textViewResourceId) {
+        super(context, textViewResourceId);
+    }
 
-    public FuelListAdapter(Context context, List<FuelModel> fuelList) {
-        super(context, R.layout.fuel_list_row, fuelList.size());
-        this.context = context;
-        this.fuelList = fuelList;
+    public FuelListAdapter(Context context, int resource, List<FuelModel> items) {
+        super(context, resource, items);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent){
+    public View getView(int position, View convertView, ViewGroup parent) {
 
-        if(convertView == null){
-            LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-            convertView = inflater.inflate(R.layout.fuel_list_row, parent, false);
+        View v = convertView;
+
+        if(v == null){
+            LayoutInflater vi;
+            vi = LayoutInflater.from(getContext());
+            v = vi.inflate(R.layout.fuel_list_row, null);
+        }
+        FuelModel item = getItem(position);
+
+        if (item != null) {
+            TextView tvRowTitle = (TextView) v.findViewById(R.id.row_title);
+            TextView tvRowPrice = (TextView) v.findViewById(R.id.row_price);
+            if (tvRowTitle != null) {
+                tvRowTitle.setText(item.getFuelName());
+            }
+            if (tvRowPrice != null) {
+                tvRowPrice.setText(item.getFuelPrice());
+            }
         }
 
-        TextView title = (TextView) convertView.findViewById(R.id.row_title);
-        TextView cat = (TextView) convertView.findViewById(R.id.row_price);
-
-        final FuelModel item = fuelList.get(position);
-
-        title.setText(item.getFuelName().toString());
-        cat.setText(item.getFuelPrice().toString());
-
-        return convertView;
+        return v;
     }
 
 
