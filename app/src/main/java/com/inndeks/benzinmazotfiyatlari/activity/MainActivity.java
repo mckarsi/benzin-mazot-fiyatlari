@@ -44,7 +44,6 @@ public class MainActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.menu_select_city){
-            Toast.makeText(MainActivity.this, "il seçenekleri gelecek", Toast.LENGTH_LONG).show();
             Fragment fragmentSelectCity = new FragmentSelectCity();
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.container, fragmentSelectCity);
