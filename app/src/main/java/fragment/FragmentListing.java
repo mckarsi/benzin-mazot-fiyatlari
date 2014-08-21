@@ -34,12 +34,12 @@ import java.util.List;
 
 import adapter.FuelListAdapter;
 import model.FuelModel;
+import util.DatabaseHelper;
 
 /**
  * Created by mert.karsi on 14.08.2014.
  */
 public class FragmentListing  extends Fragment{
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
@@ -51,6 +51,8 @@ public class FragmentListing  extends Fragment{
     }
 
     public class LoadFuelPrices extends AsyncTask<Void, Void, Void> {
+
+        private DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
 
         ProgressDialog progressDialog = null;
         InputStream inputStream = null;
@@ -109,12 +111,21 @@ public class FragmentListing  extends Fragment{
                     JSONObject jObject = jArray.getJSONObject(i);
                     fuelModel.setFuelName(jObject.getString("source") + ":" + jObject.getString("fuel"));
                     fuelModel.setFuelPrice(jObject.getString("price") + " TL");
+                    fuelModel.setCity("Ankara");
                     fuelList.add(fuelModel);
+                    dbHelper.updateFuelPrices(fuelModel);
                 }
                 ListView fuelListObject = (ListView) getActivity().findViewById(R.id.fuel_list);
                 FuelListAdapter listAdapter = new FuelListAdapter(getActivity(), R.layout.fuel_list_row, fuelList);
                 fuelListObject.setAdapter(listAdapter);
                 this.progressDialog.dismiss();
+/*
+                List<FuelModel> dbFuelList = dbHelper.getAllRows();
+                FuelModel dbFuelModel = null;
+                for(int i=0; i<dbFuelList.size(); i++){
+                    dbFuelModel = dbFuelList.get(i);
+                    Log.d("dbKayitVar", dbFuelModel.toString());
+                }*/
             } catch (JSONException e) {
                 Log.e("JSONException", "Error: " + e.toString());
             }

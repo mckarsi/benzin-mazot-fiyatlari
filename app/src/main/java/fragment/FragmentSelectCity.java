@@ -33,7 +33,7 @@ public class FragmentSelectCity extends Fragment{
         String[] cities = res.getStringArray(R.array.cities_array);
         List<String> citiesList = new ArrayList<String>(Arrays.asList(cities));
 
-        Spinner citiesSpinner = (Spinner) layout.findViewById(R.id.cities_spinner);
+        Spinner citiesSpinner = (Spinner) layout.findViewById(R.id.spinner_select_city);
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, citiesList);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         citiesSpinner.setAdapter(spinnerAdapter);
