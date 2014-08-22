@@ -113,19 +113,19 @@ public class FragmentListing  extends Fragment{
                     fuelModel.setFuelPrice(jObject.getString("price") + " TL");
                     fuelModel.setCity("Ankara");
                     fuelList.add(fuelModel);
-                    dbHelper.updateFuelPrices(fuelModel);
+                    //dbHelper.updateFuelPrices(fuelModel);
                 }
                 ListView fuelListObject = (ListView) getActivity().findViewById(R.id.fuel_list);
                 FuelListAdapter listAdapter = new FuelListAdapter(getActivity(), R.layout.fuel_list_row, fuelList);
                 fuelListObject.setAdapter(listAdapter);
                 this.progressDialog.dismiss();
-/*
+                //dbHelper.deleteAllRows();
                 List<FuelModel> dbFuelList = dbHelper.getAllRows();
                 FuelModel dbFuelModel = null;
                 for(int i=0; i<dbFuelList.size(); i++){
                     dbFuelModel = dbFuelList.get(i);
                     Log.d("dbKayitVar", dbFuelModel.toString());
-                }*/
+                }
             } catch (JSONException e) {
                 Log.e("JSONException", "Error: " + e.toString());
             }

@@ -34,14 +34,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "insert_date TEXT )";
 
         db.execSQL(createFuelPricesTable);
-        Log.d("heyyyyyyyyyyyyyy", "database onCreate oldu");
+        Log.d("Database", "database onCreate oldu");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS fuel_prices");
         this.onCreate(db);
-        Log.d("heyyyyyyyyyyyyyy", "database onUpgrade oldu");
+        Log.d("Database", "database onUpgrade oldu");
     }
 
     public boolean updateFuelPrices(FuelModel fuelModel){
@@ -74,5 +74,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         return fuelList;
+    }
+
+    public void deleteAllRows(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM fuel_prices");
     }
 }
