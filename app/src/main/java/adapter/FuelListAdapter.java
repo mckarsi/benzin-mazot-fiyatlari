@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.inndeks.benzinmazotfiyatlari.R;
@@ -40,8 +41,15 @@ public class FuelListAdapter extends ArrayAdapter<FuelModel> {
         FuelModel item = getItem(position);
 
         if (item != null) {
+            ImageView ivRowCompanyLogo = (ImageView) v.findViewById(R.id.company_logo);
             TextView tvRowTitle = (TextView) v.findViewById(R.id.row_title);
             TextView tvRowPrice = (TextView) v.findViewById(R.id.row_price);
+            if(ivRowCompanyLogo != null){
+                if(item.getCompany().equals("opet"))
+                    ivRowCompanyLogo.setImageResource(R.drawable.opet_logo);
+                if(item.getCompany().equals("poas"))
+                    ivRowCompanyLogo.setImageResource(R.drawable.petrol_ofisi_logo);
+            }
             if (tvRowTitle != null) {
                 tvRowTitle.setText(item.getFuelName());
             }

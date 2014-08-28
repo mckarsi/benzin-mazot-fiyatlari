@@ -3,14 +3,21 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <ImageView
+        android:id="@+id/company_logo"
+        android:layout_width="63dp"
+        android:layout_height="63dp"
+        />
     <TextView
         android:id="@+id/row_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="20dp"
+        android:layout_toRightOf="@id/company_logo"
+        android:width="150dp"
         android:padding="20dp"
-        android:text="Title" />
+        android:text="Yakıt"
+        android:textSize="18dp"
+        />
 
     <TextView
         android:id="@+id/row_price"
@@ -18,6 +25,8 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/row_title"
         android:padding="20dp"
-        android:text="Cat" />
+        android:text="Fiyat"
+        android:textSize="18dp"
+        />
 
 </RelativeLayout>

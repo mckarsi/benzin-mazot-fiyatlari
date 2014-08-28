@@ -2,8 +2,10 @@ package fragment;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +54,7 @@ public class FragmentListing  extends Fragment{
 
     public class LoadFuelPrices extends AsyncTask<Void, Void, Void> {
 
+        private String selectedCity = "";
         private DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
 
         ProgressDialog progressDialog = null;
@@ -70,11 +73,11 @@ public class FragmentListing  extends Fragment{
 
         @Override
         protected Void doInBackground(Void... params) {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            Long callbackName = (long)(Math.random()*9999999);
+            selectedCity = preferences.getString("selectedCity", "İstanbul"); // varsa prefrences'dan getir yoksa default istanbul seçtim
+            String url = "http://api.piyasa.com/jsonp/?callback=myCallBack" + callbackName.toString() + "&kaynak=akaryakit_guncel_" + selectedCity;
             try {
-
-                Long callbackName = (long)(Math.random()*9999999);
-                String url = "http://api.piyasa.com/jsonp/?callback=myCallBack" + callbackName.toString() + "&kaynak=akaryakit_guncel_Adıyaman";
-                Log.d("url", url);
                 HttpClient httpClient = new DefaultHttpClient();
                 HttpPost httpPost = new HttpPost(url);
                 //httpPost.setEntity(new UrlEncodedFormEntity(param));
@@ -107,11 +110,19 @@ public class FragmentListing  extends Fragment{
                 FuelModel fuelModel;
                 JSONArray jArray = new JSONArray(jsonData);
                 for(int i=0; i < jArray.length(); i++) {
-                    fuelModel = new FuelModel();
                     JSONObject jObject = jArray.getJSONObject(i);
-                    fuelModel.setFuelName(jObject.getString("source") + ":" + jObject.getString("fuel"));
+                    fuelModel = new FuelModel();
+                    if(jObject.getString("fuel").equals("K95"))
+                        fuelModel.setFuelName("Benzin");
+                    else if(jObject.getString("fuel").equals("MO1"))
+                        fuelModel.setFuelName("Mazot");
+                    else if(jObject.getString("fuel").equals("MO2"))
+                        fuelModel.setFuelName("Mazot");
+                    else
+                        continue;
+                    fuelModel.setCompany(jObject.getString("source"));
                     fuelModel.setFuelPrice(jObject.getString("price") + " TL");
-                    fuelModel.setCity("Ankara");
+                    fuelModel.setCity(selectedCity);
                     fuelList.add(fuelModel);
                     //dbHelper.updateFuelPrices(fuelModel);
                 }
