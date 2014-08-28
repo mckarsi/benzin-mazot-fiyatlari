@@ -44,6 +44,7 @@ public class FragmentSelectCity extends Fragment{
         citiesSpinner.setAdapter(spinnerAdapter);
         citiesSpinner.setSelection(preferences.getInt("selectedCityIndex", 33)); // default istanbul index:33 sıra:34
 
+
         final Button selectCityButton = (Button) layout.findViewById(R.id.button_select_city);
         selectCityButton.setOnClickListener(new View.OnClickListener() {
             @Override
