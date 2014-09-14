@@ -6,13 +6,11 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
@@ -22,10 +20,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
-/**
- * Created by mert.karsi on 14.08.2014.
- */
 public class FragmentSelectCity extends Fragment{
 
     @Override
@@ -43,7 +37,6 @@ public class FragmentSelectCity extends Fragment{
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         citiesSpinner.setAdapter(spinnerAdapter);
         citiesSpinner.setSelection(preferences.getInt("selectedCityIndex", 33)); // default istanbul index:33 sıra:34
-
 
         final Button selectCityButton = (Button) layout.findViewById(R.id.button_select_city);
         selectCityButton.setOnClickListener(new View.OnClickListener() {
